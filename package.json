@@ -1,0 +1,77 @@
+{
+	"name": "@decartai/ai-sdk-provider",
+	"version": "0.0.1",
+	"license": "MIT",
+	"sideEffects": false,
+	"main": "./dist/index.js",
+	"module": "./dist/index.mjs",
+	"types": "./dist/index.d.ts",
+	"files": [
+		"dist/**/*"
+	],
+	"scripts": {
+		"build": "pnpm clean && tsup --tsconfig tsconfig.build.json",
+		"clean": "rm -rf dist *.tsbuildinfo",
+		"typecheck": "tsc --noEmit",
+		"format": "biome format --write",
+		"format:check": "biome check",
+		"lint": "biome lint",
+		"run:examples": "tsx examples/run.ts",
+		"test": "pnpm test:node && pnpm test:edge",
+		"test:edge": "vitest --config vitest.edge.config.js --run",
+		"test:node": "vitest --config vitest.node.config.js --run",
+		"release": "bumpp"
+	},
+	"exports": {
+		"./package.json": "./package.json",
+		".": {
+			"types": "./dist/index.d.ts",
+			"import": "./dist/index.mjs",
+			"require": "./dist/index.js"
+		}
+	},
+	"dependencies": {
+		"@ai-sdk/provider": "^2.0.0",
+		"@ai-sdk/provider-utils": "^3.0.16"
+	},
+	"devDependencies": {
+		"@ai-sdk/test-server": "^0.0.1",
+		"@edge-runtime/vm": "^5.0.0",
+		"@types/node": "20.17.24",
+		"ai": "^5.0.87",
+		"biome": "^0.3.3",
+		"bumpp": "^10.3.1",
+		"image-type": "^6.0.0",
+		"msw": "^2.11.6",
+		"sharp": "^0.34.4",
+		"terminal-image": "^4.1.0",
+		"tsup": "^8",
+		"tsx": "^4.20.6",
+		"typescript": "5.8.3",
+		"vitest": "^4.0.7",
+		"zod": "3.25.76"
+	},
+	"peerDependencies": {
+		"zod": "^3.25.76 || ^4.1.8",
+		"ai": "^5.0.0"
+	},
+	"engines": {
+		"node": ">=18"
+	},
+	"publishConfig": {
+		"access": "public"
+	},
+	"homepage": "https://decart.ai",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/decartai/ai-sdk-provider"
+	},
+	"bugs": {
+		"url": "https://github.com/decartai/ai-sdk-provider/issues"
+	},
+	"keywords": [
+		"ai",
+		"decart",
+		"image-generation"
+	]
+}
