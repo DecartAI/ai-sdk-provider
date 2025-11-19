@@ -2,6 +2,7 @@
 	"name": "@decartai/ai-sdk-provider",
 	"version": "0.0.1",
 	"license": "MIT",
+	"private": false,
 	"sideEffects": false,
 	"main": "./dist/index.js",
 	"module": "./dist/index.mjs",
@@ -64,10 +65,10 @@
 	"homepage": "https://decart.ai",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/decartai/ai-sdk-provider"
+		"url": "https://github.com/DecartAI/ai-sdk-provider"
 	},
 	"bugs": {
-		"url": "https://github.com/decartai/ai-sdk-provider/issues"
+		"url": "https://github.com/DecartAI/ai-sdk-provider/issues"
 	},
 	"keywords": [
 		"ai",
