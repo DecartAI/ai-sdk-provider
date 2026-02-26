@@ -3,27 +3,10 @@ import {
 	combineHeaders,
 	createBinaryResponseHandler,
 	createJsonErrorResponseHandler,
-	type FetchFunction,
 	postFormDataToApi,
 } from "@ai-sdk/provider-utils";
 import { z } from "zod/v4";
-
-interface DecartImageModelConfig {
-	provider: string;
-	baseURL: string;
-	url: (options: { modelId: string; path: string }) => string;
-	headers: () => Record<string, string>;
-	fetch?: FetchFunction;
-	_internal?: {
-		currentDate?: () => Date;
-	};
-}
-
-function convertAspectRatioToOrientation(aspectRatio: `${number}:${number}`): "portrait" | "landscape" | undefined {
-	if (aspectRatio === "9:16") return "portrait";
-	if (aspectRatio === "16:9") return "landscape";
-	return undefined;
-}
+import { type DecartModelConfig, convertAspectRatioToOrientation } from "./decart-config";
 
 export class DecartImageModel implements ImageModelV2 {
 	readonly specificationVersion = "v2";
@@ -35,7 +18,7 @@ export class DecartImageModel implements ImageModelV2 {
 
 	constructor(
 		readonly modelId: string,
-		private readonly config: DecartImageModelConfig,
+		private readonly config: DecartModelConfig,
 	) {}
 
 	async doGenerate({
@@ -88,7 +71,7 @@ export class DecartImageModel implements ImageModelV2 {
 			formData,
 			failedResponseHandler: createJsonErrorResponseHandler({
 				errorSchema: z.any(),
-				errorToMessage: (data) => data,
+				errorToMessage: (data) => JSON.stringify(data),
 			}),
 			successfulResponseHandler: createBinaryResponseHandler(),
 			abortSignal,

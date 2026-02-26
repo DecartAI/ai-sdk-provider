@@ -17,7 +17,7 @@
 		"format": "biome format --write",
 		"format:check": "biome check",
 		"lint": "biome lint",
-		"run:examples": "tsx examples/run.ts",
+		"run:examples": "pnpm build && tsx examples/run.ts",
 		"test": "pnpm test:node && pnpm test:edge",
 		"test:edge": "vitest --config vitest.edge.config.js --run",
 		"test:node": "vitest --config vitest.node.config.js --run",
@@ -32,14 +32,14 @@
 		}
 	},
 	"dependencies": {
-		"@ai-sdk/provider": "^2.0.0",
-		"@ai-sdk/provider-utils": "^3.0.16"
+		"@ai-sdk/provider": "^3.0.0",
+		"@ai-sdk/provider-utils": "^4.0.0"
 	},
 	"devDependencies": {
 		"@ai-sdk/test-server": "^0.0.1",
 		"@edge-runtime/vm": "^5.0.0",
 		"@types/node": "20.17.24",
-		"ai": "^5.0.87",
+		"ai": "^6.0.0",
 		"biome": "^0.3.3",
 		"bumpp": "^10.3.1",
 		"image-type": "^6.0.0",
@@ -54,7 +54,7 @@
 	},
 	"peerDependencies": {
 		"zod": "^3.25.76 || ^4.1.8",
-		"ai": "^5.0.0"
+		"ai": "^6.0.0"
 	},
 	"engines": {
 		"node": ">=18"
@@ -73,6 +73,7 @@
 	"keywords": [
 		"ai",
 		"decart",
-		"image-generation"
+		"image-generation",
+		"video-generation"
 	]
 }
