@@ -145,7 +145,7 @@ Pass an image to animate it into a video:
 const { videos } = await generateVideo({
   model: decart.video('lucy-pro-i2v'),
   prompt: {
-    image: imageData, // Uint8Array from a previous generateImage call
+    image: imageData,
     text: 'The subject begins to walk forward slowly',
   },
 });
