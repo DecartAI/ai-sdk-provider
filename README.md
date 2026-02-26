@@ -1,6 +1,6 @@
 # AI SDK - Decart Provider
 
-The **Decart provider** for the [AI SDK](https://ai-sdk.dev/docs) contains support for [Decart](https://decart.ai)'s image generation models.
+The **Decart provider** for the [AI SDK](https://ai-sdk.dev/docs) contains support for [Decart](https://decart.ai)'s image and video generation models.
 
 ## Setup
 
@@ -63,7 +63,7 @@ For more on image generation with the AI SDK see [generateImage()](https://ai-sd
 
 ```ts
 import { decart } from '@decartai/ai-sdk-provider';
-import { experimental_generateImage as generateImage } from 'ai';
+import { generateImage } from 'ai';
 import fs from 'fs';
 
 const { image } = await generateImage({
@@ -117,6 +117,108 @@ Supported settings:
 
   Set a seed value for reproducible results.
 
+## Video Models
+
+You can create Decart video models using the `.video()` factory method.
+For more on video generation with the AI SDK see [experimental_generateVideo()](https://ai-sdk.dev/docs/reference/ai-sdk-core/generate-video).
+
+### Text-to-Video
+
+```ts
+import { decart } from '@decartai/ai-sdk-provider';
+import { experimental_generateVideo as generateVideo } from 'ai';
+import fs from 'fs';
+
+const { videos } = await generateVideo({
+  model: decart.video('lucy-pro-t2v'),
+  prompt: 'A man is riding a horse in a field',
+});
+
+fs.writeFileSync('video.mp4', videos[0].uint8Array);
+```
+
+### Image-to-Video
+
+Pass an image to animate it into a video:
+
+```ts
+const { videos } = await generateVideo({
+  model: decart.video('lucy-pro-i2v'),
+  prompt: {
+    image: imageData, // Uint8Array from a previous generateImage call
+    text: 'The subject begins to walk forward slowly',
+  },
+});
+```
+
+### Motion Control
+
+Use `lucy-motion` with a trajectory to control camera or subject movement:
+
+```ts
+const { videos } = await generateVideo({
+  model: decart.video('lucy-motion'),
+  prompt: {
+    image: imageData,
+    text: 'The subject moves along the specified path',
+  },
+  providerOptions: {
+    decart: {
+      trajectory: [
+        { frame: 0, x: 0.5, y: 0.5 },
+        { frame: 12, x: 0.7, y: 0.9 },
+        { frame: 25, x: 0.3, y: 0.1 },
+      ],
+    },
+  },
+});
+```
+
+### Model Capabilities
+
+| Model          | Description                                          |
+| -------------- | ---------------------------------------------------- |
+| `lucy-pro-t2v` | Text-to-video generation                             |
+| `lucy-pro-i2v` | Image-to-video generation                            |
+| `lucy-dev-i2v` | Image-to-video generation (dev)                      |
+| `lucy-motion`  | Image-to-video with trajectory-based motion control  |
+
+### Video Model Settings
+
+```ts
+const { videos } = await generateVideo({
+  model: decart.video('lucy-pro-t2v'),
+  prompt: 'A sunset over the ocean',
+  aspectRatio: '16:9',
+  seed: 42,
+});
+```
+
+Supported settings:
+
+- **aspectRatio** _string_
+
+  Control the aspect ratio. Supported values: `16:9` (landscape) and `9:16` (portrait).
+
+- **seed** _number_
+
+  Set a seed value for reproducible results.
+
+- **resolution** _string_
+
+  Video resolution. Supported values: `1280x720` (720p) and `854x480` (480p).
+
+### Provider Options
+
+Pass Decart-specific options via `providerOptions.decart`:
+
+- **trajectory** _Array<{ frame: number; x: number; y: number }>_
+
+  Motion path for `lucy-motion`. Each point specifies a frame number and normalized x,y coordinates.
+
+- **orientation** _"landscape" | "portrait"_
+
+  Override orientation directly instead of deriving from `aspectRatio`.
 
 ## Learn More
 
