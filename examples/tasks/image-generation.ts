@@ -1,5 +1,5 @@
 import { decart } from "@decartai/ai-sdk-provider";
-import { experimental_generateImage as generateImage } from "ai";
+import { generateImage } from "ai";
 
 export async function run() {
 	const result = await generateImage({
